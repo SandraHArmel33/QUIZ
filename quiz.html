@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUIZ</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat" rel="stylesheet">
+    <style>
+        *{
+    box-sizing: border-box;
+    
+}
+body{
+    height:100vh;
+    margin:0;
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url(https://image.freepik.com/vecteurs-libre/comme-pouce-dans-style-neon-bleu-espace-texte_1017-20622.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+h1{
+    text-align: center;
+    color: white;
+}
+h2{
+    color: white;
+}
+h4{
+    color: yellow;
+}
+.quiz-container{   
+    width:500px;
+    background-color: rgba(255, 255, 255, 0);
+    border-radius: 10px;
+    border:1px solid rgb(146, 146, 146);
+    box-shadow: 2px 2px 7px rgba(0, 0, 0, .7),
+                3px 3px 10px rgba(0, 0, 0, .5);
+    overflow: hidden;
+}
+.quix-header{
+    position: relative;    
+    padding:2rem;
+    justify-content: center;
+}
+.quix-header ul{
+    padding: 0;
+    list-style: none;
+    color: white;
+}
+.quix-header h2{
+    display: inline;
+    user-select: none;
+    color: white;
+}
+.quix-header #ques-no{
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding:0 1rem 0 .5rem ;
+    color: white;
+}
+.quix-header ul li input{
+    margin-right: 1rem;
+}
+.quix-header ul li label{
+    cursor: pointer;
+    user-select: none;
+}
+button{
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    border:none;
+    background-color: rgb(76, 0, 252);
+    padding:1rem;
+    font-size: 1.3rem;
+    color:#fff;
+    transition:all ease .2s;
+}
+button:hover,button:active,button:focus{
+    background: rgb(62, 130, 255);
+    outline:none;
+}
+button:active{
+    box-shadow: inset 1px 1px 0 0 rgba(0, 0, 0, .5);
+}
+
+    </style>
+</head>
+<body> 
+    <div class="quiz-container">
+        <h1>QUIZ</h1>
+        <div class="quix-header">
+            <span id="ques-no">1.</span>
+            <h2 id="question"> Question</h2>
+            <ul>
+                <li>
+                    <input id ="a" type="radio" name="answer" class="option">
+                    <label id="option1" for="a">option1</label>
+                </li>
+                <li>
+                    <input id ="b" type="radio" name="answer" class="option">
+                    <label id="option2" for="b">option1</label>
+                </li>
+                <li>
+                    <input id ="c" type="radio" name="answer" class="option">
+                    <label id="option3" for="c">option1</label>
+                </li>
+                <li>
+                    <input id ="d" type="radio" name="answer" class="option">
+                    <label id="option4" for="d">option1</label>
+                </li>
+            </ul>
+        </div>
+        <button id="submit">Submit</button>
+    </div>
+    <script>
+ const quizBox = document.querySelector('.quiz-container');
+const quesNo = document.getElementById('ques-no');
+const option1 = document.getElementById('option1');
+const option2 = document.getElementById('option2');
+const option3 = document.getElementById('option3');
+const option4 = document.getElementById('option4');
+const questionE = document.getElementById('question');
+const submitBtn = document.getElementById('submit');
+let score = 0;
+const options = document.querySelectorAll('.option');
+
+let questionIndex=0;
+
+const questionBank=[
+    {
+        question:"Quel est l'auteur de la Dame aux Camélias  ?",
+        a:'Georges Sand',
+        b:'La Comtesse de Ségur',
+        c:'Robert Louis Stevenson',
+        d:'Alexandra Dumas',
+        correctAnswer:'d'
+    },
+    {
+        question:"A quel groupe de super-héros appartient le Dr Manhattan ?",
+        a:'La ligue des justiciers',
+        b:'Les Watchmen',
+        c:'Les x-Men',
+        d:'Les 4 Fantastiques ',
+        correctAnswer:'b'
+    },
+    {
+        question:"Compléter ce duo Robert Plant et... ",
+        a:'Ringo Starr',
+        b:'Mick jagger',
+        c:'Jimmy Page',
+        d:'Adam levine',
+        correctAnswer:'c'
+    },
+    {
+        question:"Comment s'appelle le héro d'assassin's Creed origins ?",
+        a:'bayek',
+        b:'Link',
+        c:'carl CJ Johnson',
+        d:'Fargus',
+        correctAnswer:'a'
+    },
+    {
+        question:"dans la série The Witcher, comment s'appelle le héro?",
+        a:'Ciri',
+        b:'Jaskier',
+        c:'Geralt de Riv',
+        d:'Istredd',
+        correctAnswer:'c'
+    }
+];
+
+function generateQuestion(){
+    let nextQueston=questionBank[questionIndex];
+    quesNo.innerText = questionIndex+1+'.';
+    questionE.innerText = nextQueston.question;
+    option1.innerText = nextQueston.a;
+    option2.innerText = nextQueston.b;
+    option3.innerText = nextQueston.c;
+    option4.innerText = nextQueston.d;
+}
+
+generateQuestion();
+let wrongAnswer =[];
+submitBtn.addEventListener('click',() =>{
+    let selection = undefined;
+    
+    options.forEach(option => {
+        if(option.checked){
+            selection = option.id;
+            //console.log(selection);
+        }
+    })
+    if(selection!= undefined){
+        if(selection === questionBank[questionIndex].correctAnswer){
+            score++;
+               
+        }
+        else{
+            wrongAnswer.push(questionIndex+1);
+            //console.log(wrongAnswer);
+        }
+        document.getElementById(selection).checked=false;
+        questionIndex++;
+        if(questionIndex == questionBank.length){
+            quizBox.innerHTML='<div style="text-align:center"><h4>Super !! Tu as fini le quiz ... Ton résultat est de: </h4> <h2>'+score+' sur '+questionBank.length+'</h2> <h4> les réponses erronées sont :'+wrongAnswer.slice(0,wrongAnswer.length)+'</h4><h4>Cliquer sur recommencer si tu veux retenter ta chance!!</h4></div>'+'<button onClick="Allez Go(0)" VALUE="Refresh">Recommencer</button>';
+        }
+        else{
+            generateQuestion();
+        }
+    }
+    else{
+        alert('veuillez sélectionner une réponse pour continuer!')
+    }
+    
+});
+
+    </script>
+</body>
+</html>
